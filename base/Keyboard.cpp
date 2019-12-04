@@ -9,6 +9,7 @@
 #include <cstring>
 #include "Private.h"
 #include "Keyboard.h"
+#include "Config.h"
 
 #if EM_USE_SDL
 bool Keyboard::m_abKey[KEY_MAX];
@@ -25,11 +26,38 @@ void Keyboard::poll() {
 #if EM_USE_SDL
   SDL_Event event;
   while(SDL_PollEvent(&event)) {
-    if (event.type == SDL_KEYDOWN) {
+    switch(event.type) {
+
+    case SDL_MOUSEBUTTONDOWN:
+    case SDL_MOUSEBUTTONUP:
+      SDL_Event newEvent;
+
+      newEvent.type = (event.type == SDL_MOUSEBUTTONDOWN)
+	? SDL_KEYDOWN : SDL_KEYUP;
+
+      switch (event.button.button) {
+      case SDL_BUTTON_RIGHT:
+	newEvent.key.keysym.sym = Config::getInstance()->getKey("rightflip");
+	break;
+      case SDL_BUTTON_LEFT:
+	newEvent.key.keysym.sym = Config::getInstance()->getKey("leftflip");
+	break;
+      case SDL_BUTTON_MIDDLE:
+	newEvent.key.keysym.sym = Config::getInstance()->getKey("launch");
+	break;
+      default:
+         return;
+      }
+      SDL_PushEvent(&newEvent);
+      return;
+      break;
+
+    case SDL_KEYDOWN:
       m_abKey[event.key.keysym.sym] = true;
-    }
-    if (event.type == SDL_KEYUP) {
+      break;
+    case SDL_KEYUP:
       m_abKey[event.key.keysym.sym] = false;
+      break;
     }
   }
 #endif
