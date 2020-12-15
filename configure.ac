@@ -30,8 +30,10 @@ _LT_SET_OPTION([LT_INIT],[dlopen])
 AC_DIAGNOSE([obsolete],[AC_LIBTOOL_DLOPEN: Remove this warning and the call to _LT_SET_OPTION when you
 put the 'dlopen' option into LT_INIT's first parameter.])
 
-LTDL_INIT
+LT_CONFIG_LTDL_DIR([libltdl])
+AC_CONFIG_MACRO_DIRS([libltdl/m4])
 LT_INIT
+LTDL_INIT
 
 AC_SUBST(INCLTDL)
 AC_SUBST(LIBLTDL)
