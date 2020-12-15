@@ -3,4 +3,4 @@
 set -e
 set -x
 
-./helper.mk bootstrap
+gmake -f ./helper.mk bootstrap

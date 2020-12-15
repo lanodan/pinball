@@ -1,4 +1,4 @@
-#!/usr/bin/make -f
+#!/usr/bin/env gmake -f
 # -*- makefile -*-
 # ex: set tabstop=4 noexpandtab:
 # -*- coding: utf-8 -*
@@ -11,7 +11,7 @@ app ?= src/${project}
 trako_url?=https://github.com/rzr/trako#master
 trako_branch?=0.2.0
 
-make ?= ./helper.mk
+make ?= gmake -f ./helper.mk
 
 autotools_files += configure
 autotools_files += Makefile
